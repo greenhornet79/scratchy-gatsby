@@ -30,6 +30,12 @@ const Layout = ({ isHomePage, children }) => {
             {title}
           </Link>
         )}
+
+        <nav className="main-nav">
+          <a href="/">Home</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </nav>
       </header>
 
       <main>{children}</main>
@@ -39,7 +45,7 @@ const Layout = ({ isHomePage, children }) => {
         {` `}
         <a href="https://www.gatsbyjs.com">Gatsby</a>
         {` `}
-        And <a href="https://wordpress.org/">WordPress</a>
+        And <a href="https://wordpress.org/">WordPress</a> by Jeremy Green
       </footer>
     </div>
   )

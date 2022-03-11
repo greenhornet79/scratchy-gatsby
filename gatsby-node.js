@@ -14,6 +14,8 @@ const chunk = require(`lodash/chunk`)
 exports.createPages = async gatsbyUtilities => {
   // Query our posts from the GraphQL server
   const posts = await getPosts(gatsbyUtilities)
+  const tags = await getTags(gatsbyUtilities)
+  const pages = await getPages(gatsbyUtilities)
 
   // If there are no posts in WordPress, don't do anything
   if (!posts.length) {
@@ -23,9 +25,43 @@ exports.createPages = async gatsbyUtilities => {
   // If there are posts, create pages for them
   await createIndividualBlogPostPages({ posts, gatsbyUtilities })
 
+  await createIndividualPages({ pages, gatsbyUtilities })
+
   // And a paginated archive
   await createBlogPostArchive({ posts, gatsbyUtilities })
+
+  await createBlogPostTagPages({ tags, gatsbyUtilities })
 }
+
+const createBlogPostTagPages = async ({ tags, gatsbyUtilities }) =>
+
+  Promise.all(
+    tags.map(({ tag }) =>
+
+    gatsbyUtilities.actions.createPage({
+      path: tag.uri,
+      component: path.resolve(`./src/templates/tag.js`),
+      context: {
+        id: tag.termTaxonomyId,
+      },
+    })
+  )
+)
+
+const createIndividualPages = async ({ pages, gatsbyUtilities }) =>
+
+  Promise.all(
+    pages.map(({ page }) =>
+
+    gatsbyUtilities.actions.createPage({
+      path: page.uri,
+      component: path.resolve(`./src/templates/page.js`),
+      context: {
+        id: page.id
+      },
+    })
+  )
+)
 
 /**
  * This function creates all the individual blog pages in this site
@@ -163,4 +199,69 @@ async function getPosts({ graphql, reporter }) {
   }
 
   return graphqlResult.data.allWpPost.edges
+}
+
+/**
+ * This function queries Gatsby's GraphQL server and asks for
+ * All WordPress pages. If there are any GraphQL error it throws an error
+ * Otherwise it will return the posts 🙌
+ *
+ * We're passing in the utilities we got from createPages.
+ * So see https://www.gatsbyjs.com/docs/node-apis/#createPages for more info!
+ */
+ async function getPages({ graphql, reporter }) {
+  const graphqlResult = await graphql(/* GraphQL */ `
+    query WpPages {
+      # Query all WordPress blog posts sorted by date
+      allWpPage(sort: { fields: [date], order: DESC }) {
+        edges {
+          
+          # note: this is a GraphQL alias. It renames "node" to "page" for this query
+          # We're doing this because this "node" is a post! It makes our code more readable further down the line.
+          page: node {
+            id
+            uri
+            content
+          }
+
+        }
+      }
+    }
+  `)
+
+  if (graphqlResult.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your blog posts`,
+      graphqlResult.errors
+    )
+    return
+  }
+
+  return graphqlResult.data.allWpPage.edges
+}
+
+async function getTags({ graphql, reporter }) {
+  const graphqlResult = await graphql(/* GraphQL */ `
+    query WpTags {
+      allWpTag {
+        edges {
+          tag: node {
+            termTaxonomyId
+            uri
+            name
+          }
+        }
+      }
+    }
+  `)
+
+  if (graphqlResult.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your tags`,
+      graphqlResult.errors
+    )
+    return
+  }
+
+  return graphqlResult.data.allWpTag.edges
 }

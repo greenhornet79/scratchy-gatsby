@@ -75,6 +75,7 @@ html {
   font-size: var(--fontSize-root);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #0d111e;
 }
 
 body {
@@ -85,6 +86,7 @@ body {
 
 footer {
   padding: var(--spacing-6) var(--spacing-0);
+  color: rgb(100, 116, 139);
 }
 
 hr {
@@ -129,6 +131,7 @@ h2 {
 
 h3 {
   font-size: var(--fontSize-4);
+  color: rgb(148, 163, 184);
 }
 
 h4 {
@@ -165,6 +168,7 @@ p {
   --x-height-multiplier: 0.35;
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-8) var(--spacing-0);
   padding: var(--spacing-0);
+  color: rgb(148, 163, 184);
 }
 
 ul,
@@ -221,6 +225,7 @@ table {
   margin-bottom: var(--spacing-8);
   border-collapse: collapse;
   border-spacing: 0.25rem;
+  color: rgb(148, 163, 184);
 }
 
 table thead tr th {
@@ -258,6 +263,28 @@ a:focus {
 .main-heading {
   font-size: var(--fontSize-7);
   margin: 0;
+  color: #b34527;
+}
+
+.main-nav {
+  margin-top: 20px;
+  border-top: 1px solid #171b28;
+  border-bottom: 1px solid #171b28;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.main-nav a {
+  color: rgb(226, 232, 240);
+  font-family: sans-serif;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.main-nav a:hover {
+  color: #d5842b;
 }
 
 .post-list-item {
@@ -306,6 +333,7 @@ a:focus {
 
 .blog-post header h1 {
   margin: var(--spacing-0) var(--spacing-0) var(--spacing-4) var(--spacing-0);
+  color: #b34527;
 }
 
 .blog-post header p {
@@ -319,6 +347,10 @@ a:focus {
 
 .gatsby-highlight {
   margin-bottom: var(--spacing-8);
+}
+
+.page h1 {
+  color: #b34527;
 }
 
 /* Media queries */

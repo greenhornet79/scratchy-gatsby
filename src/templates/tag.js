@@ -36,11 +36,13 @@ const PostStyles = styled.article`
   }
 `;
 
-const BlogIndex = ({
-  data,
-  pageContext: { nextPagePath, previousPagePath },
-}) => {
-  const posts = data.allWpPost.nodes
+export default function BlogTagIndex({ data } ) {
+
+  console.log( data )
+
+  const posts = data.posts.nodes 
+
+
 
   if (!posts.length) {
     return (
@@ -110,25 +112,15 @@ const BlogIndex = ({
         })}
       </ol>
 
-      {previousPagePath && (
-        <>
-          <Link to={previousPagePath}>Previous page</Link>
-          <br />
-        </>
-      )}
-      {nextPagePath && <Link to={nextPagePath}>Next page</Link>}
     </Layout>
   )
 }
 
-export default BlogIndex
-
-export const pageQuery = graphql`
-  query WordPressPostArchive($offset: Int!, $postsPerPage: Int!) {
-    allWpPost(
+export const query = graphql`
+  query WordPressPostTagArchive($id: Int!) {
+    posts: allWpPost(
+      filter: {tags: {nodes: {elemMatch: {termTaxonomyId: {eq: $id}}}}}
       sort: { fields: [date], order: DESC }
-      limit: $postsPerPage
-      skip: $offset
     ) {
       nodes {
         excerpt

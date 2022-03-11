@@ -41,8 +41,8 @@ const Bio = () => {
           {author?.description || null}
           {` `}
           {author?.twitter && (
-            <a href={`https://twitter.com/${author?.twitter || ``}`}>
-              You should follow them on Twitter
+            <a target="_blank" href="https://soundcloud.com/greenhornet79">
+              Check out my tracks on Soundcloud
             </a>
           )}
         </p>
