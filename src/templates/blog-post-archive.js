@@ -117,6 +117,22 @@ const BlogIndex = ({
         </>
       )}
       {nextPagePath && <Link to={nextPagePath}>Next page</Link>}
+
+      <hr />
+
+      <h3>Get Updates.</h3>
+      
+      <form name="contact" netlify>
+        <p>
+          <label>Name <input type="text" name="name" /></label>
+        </p>  
+        <p>
+          <label>Email <input type="text" name="email" /></label>
+        </p> 
+        <p>
+          <button type="submit">Send</button>
+        </p>
+      </form>
     </Layout>
   )
 }
