@@ -122,7 +122,7 @@ const BlogIndex = ({
 
       <h3>Get Updates.</h3>
       
-      <form name="contact" netlify>
+      <form className="contact-form" name="contact" netlify>
         <p>
           <label>Name <input type="text" name="name" /></label>
         </p>  
